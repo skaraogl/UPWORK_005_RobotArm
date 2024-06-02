@@ -1,0 +1,22 @@
+function [theta1, theta2] = getCubicVia(t1,,theta0,thetaV,thetaG,tf1,tf2)
+%GETCUBICVIA Summary of this function goes here
+%   Detailed explanation goes here
+
+T12 = 2*tf1*tf2 + tf2^2 + 2/3*(tf1 + tf2)*tf2;
+T13 = 3*tf1*tf2 + 3*tf1*tf2^2 + (tf1^2 + tf1*tf2)*tf2;
+
+a13 = (thetaV - thetaG - (thetaG - thetaV)/T12*tf1^2)/(T13/T12*tf1^2 + tf1^3);
+a12 = (thetaG - thetaV - a13*T13)/T12;
+a23 = (2*a12)/(3*tf1^2)*(tf1 + tf2) + a13/tf2^2*(tf1^2 + tf1*tf2);
+a22 = a12 + 3*a13*tf1;
+a21 = 2*a12*tf1 + 3*a13*tf1^2;
+
+a10 = theta0;
+a20 = thetaV;
+a11 = 0;
+
+theta1 = a10 + a11.*t + a12.*t.^2 + a13.*t.^3;
+theta2 = a20 + a21.*t + a22.*t.^2 + a23.*t.^3;
+
+end
+
